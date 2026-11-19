@@ -1,0 +1,28 @@
+{
+  "name": "qa-automation-training-antonio",
+  "private": true,
+  "type": "module",
+  "description": "Antonio Esparis - FS Learning training plan 1: TypeScript, Playwright UI and API automation, test design, SQL data validation",
+  "scripts": {
+    "sandbox": "node sandbox/server.js",
+    "typecheck": "tsc --noEmit",
+    "drills": "node --test \"drills/*.test.ts\"",
+    "drills:day02": "node --test drills/day02-basics.test.ts",
+    "drills:day03": "node --test drills/day03-collections.test.ts",
+    "drills:day04": "node --test drills/day04-async.test.ts",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:api": "playwright test tests/api",
+    "codegen": "playwright codegen http://localhost:4020",
+    "report": "playwright show-report",
+    "test:legacy": "playwright test -c playwright.legacy.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.0.0",
+    "typescript": "~5.9.3"
+  },
+  "engines": {
+    "node": ">=22.18"
+  }
+}
