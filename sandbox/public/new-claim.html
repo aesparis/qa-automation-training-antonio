@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>TallyPay — New overtime claim</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><span class="brand">TallyPay Overtime</span><span><span id="who"></span> <button class="secondary" id="signout">Sign out</button></span></header>
+<main>
+  <h1>New overtime claim</h1>
+  <form class="card" id="claim">
+    <label for="employee">Employee</label><select id="employee"></select>
+    <label for="date">Date</label><input id="date" type="date">
+    <label for="hours">Hours</label><input id="hours" type="number" step="0.5" min="0.5" max="12">
+    <label for="type">Type</label>
+    <select id="type"><option value="Regular">Regular day</option><option value="RestDay">Rest day</option><option value="Holiday">Holiday</option></select>
+    <label for="note">Note</label><input id="note" maxlength="200">
+    <div style="margin-top:14px"><button type="submit">Submit claim</button> <a href="/claims.html">Back to claims</a></div>
+    <div id="message" role="status"></div><div id="error" role="alert"></div>
+  </form>
+</main>
+<script src="/app.js"></script>
+<script>
+if (TP.requireLogin()) {
+  TP.header();
+  (async () => {
+    const r = await TP.api('GET', '/api/employees');
+    for (const e of r.data.filter((x) => x.status === 'Active')) {
+      const o = document.createElement('option'); o.value = e.id; o.textContent = `${e.name} (${e.id})`; employee.append(o);
+    }
+  })();
+  document.getElementById('claim').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    message.textContent = ''; error.textContent = '';
+    const r = await TP.api('POST', '/api/overtime-claims', {
+      employeeId: employee.value, date: date.value, hours: Number(hours.value), type: type.value, note: note.value,
+    });
+    if (r.status === 201) message.textContent = `Claim ${r.data.id} submitted — amount ${TP.money(r.data.amount)}`;
+    else error.textContent = (r.data && r.data.error) || 'Could not submit the claim';
+  });
+}
+</script>
+</body></html>

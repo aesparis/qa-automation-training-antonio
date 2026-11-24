@@ -1,0 +1,24 @@
+# CI scaffold, present from Day 1 (repo path: .github/workflows/ci.yml). Runs on every pull request.
+# Day 1 to Day 9: installs dependencies and runs the TypeScript type check (stays green while drill stubs are unfinished).
+# Day 10: you add a "playwright" job (drills + Playwright suite + HTML report artifact). From then on it is the merge gate.
+name: ci
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check repo layout
+        run: |
+          for d in sandbox drills tests test-design sql; do
+            test -d "$d" || { echo "Missing folder: $d"; exit 1; }
+          done
+      - name: TypeScript type check
+        run: npx tsc --noEmit
