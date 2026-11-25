@@ -1,0 +1,307 @@
+{
+ "users": [
+  {
+   "username": "ana.admin",
+   "password": "Train#2026",
+   "role": "payroll_admin",
+   "companyId": "C1",
+   "displayName": "Ana Torres"
+  },
+  {
+   "username": "ben.admin",
+   "password": "Train#2026",
+   "role": "payroll_admin",
+   "companyId": "C1",
+   "displayName": "Ben Uy"
+  },
+  {
+   "username": "vic.viewer",
+   "password": "Train#2026",
+   "role": "payroll_viewer",
+   "companyId": "C1",
+   "displayName": "Vic Ocampo"
+  },
+  {
+   "username": "cora.admin",
+   "password": "Train#2026",
+   "role": "payroll_admin",
+   "companyId": "C2",
+   "displayName": "Cora Lim"
+  },
+  {
+   "username": "dan.admin",
+   "password": "Train#2026",
+   "role": "payroll_admin",
+   "companyId": "C2",
+   "displayName": "Dan Sy"
+  }
+ ],
+ "companies": [
+  {
+   "id": "C1",
+   "name": "Harbor Foods PH"
+  },
+  {
+   "id": "C2",
+   "name": "Northwind Logistics PH"
+  }
+ ],
+ "employees": [
+  {
+   "id": "E101",
+   "companyId": "C1",
+   "name": "Maria Santos",
+   "payType": "Hourly",
+   "hourlyRate": 95.0,
+   "status": "Active",
+   "hireDate": "2021-03-15"
+  },
+  {
+   "id": "E102",
+   "companyId": "C1",
+   "name": "Jose Reyes",
+   "payType": "Hourly",
+   "hourlyRate": 110.5,
+   "status": "Active",
+   "hireDate": "2022-07-01"
+  },
+  {
+   "id": "E103",
+   "companyId": "C1",
+   "name": "Andrea Cruz",
+   "payType": "Salaried",
+   "hourlyRate": 187.5,
+   "status": "Active",
+   "hireDate": "2019-01-07"
+  },
+  {
+   "id": "E104",
+   "companyId": "C1",
+   "name": "Liza Ramos",
+   "payType": "Hourly",
+   "hourlyRate": 88.75,
+   "status": "Active",
+   "hireDate": "2023-02-20"
+  },
+  {
+   "id": "E105",
+   "companyId": "C1",
+   "name": "Paolo Garcia",
+   "payType": "Hourly",
+   "hourlyRate": 102.0,
+   "status": "Active",
+   "hireDate": "2020-11-02"
+  },
+  {
+   "id": "E106",
+   "companyId": "C1",
+   "name": "Grace Lim",
+   "payType": "Hourly",
+   "hourlyRate": 97.25,
+   "status": "Terminated",
+   "hireDate": "2018-05-14"
+  },
+  {
+   "id": "E107",
+   "companyId": "C1",
+   "name": "Ramon Dela Cruz",
+   "payType": "Hourly",
+   "hourlyRate": 120.0,
+   "status": "Active",
+   "hireDaysAgo": 10
+  },
+  {
+   "id": "E108",
+   "companyId": "C1",
+   "name": "Nina Bautista",
+   "payType": "Salaried",
+   "hourlyRate": 210.0,
+   "status": "Active",
+   "hireDate": "2017-09-25"
+  },
+  {
+   "id": "E201",
+   "companyId": "C2",
+   "name": "Carlo Mendoza",
+   "payType": "Hourly",
+   "hourlyRate": 99.0,
+   "status": "Active",
+   "hireDate": "2020-02-03"
+  },
+  {
+   "id": "E202",
+   "companyId": "C2",
+   "name": "Bea Navarro",
+   "payType": "Hourly",
+   "hourlyRate": 105.0,
+   "status": "Active",
+   "hireDate": "2021-06-21"
+  },
+  {
+   "id": "E203",
+   "companyId": "C2",
+   "name": "Dante Villanueva",
+   "payType": "Hourly",
+   "hourlyRate": 92.5,
+   "status": "Active",
+   "hireDate": "2022-10-10"
+  }
+ ],
+ "claims": [
+  {
+   "id": "OT-5001",
+   "employeeId": "E101",
+   "daysAgo": 2,
+   "hours": 2,
+   "type": "Regular",
+   "status": "Submitted",
+   "createdBy": "ana.admin",
+   "note": "Inventory count"
+  },
+  {
+   "id": "OT-5002",
+   "employeeId": "E102",
+   "daysAgo": 3,
+   "hours": 3,
+   "type": "RestDay",
+   "status": "Submitted",
+   "createdBy": "ben.admin",
+   "note": "Sunday delivery"
+  },
+  {
+   "id": "OT-5003",
+   "employeeId": "E103",
+   "daysAgo": 5,
+   "hours": 4,
+   "type": "Holiday",
+   "status": "Approved",
+   "createdBy": "ana.admin",
+   "approvedBy": "ben.admin",
+   "note": "Holiday shift"
+  },
+  {
+   "id": "OT-5004",
+   "employeeId": "E101",
+   "daysAgo": 9,
+   "hours": 1.5,
+   "type": "Regular",
+   "status": "Paid",
+   "createdBy": "ana.admin",
+   "approvedBy": "ben.admin"
+  },
+  {
+   "id": "OT-5005",
+   "employeeId": "E108",
+   "daysAgo": 15,
+   "hours": 6,
+   "type": "RestDay",
+   "status": "Rejected",
+   "createdBy": "ana.admin",
+   "rejectedBy": "ben.admin",
+   "rejectReason": "No manager sign-off"
+  },
+  {
+   "id": "OT-5006",
+   "employeeId": "E104",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Approved",
+   "createdBy": "ana.admin",
+   "approvedBy": "ben.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5007",
+   "employeeId": "E104",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Approved",
+   "createdBy": "ben.admin",
+   "approvedBy": "ana.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5008",
+   "employeeId": "E104",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Paid",
+   "createdBy": "ana.admin",
+   "approvedBy": "ben.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5009",
+   "employeeId": "E105",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Submitted",
+   "createdBy": "ana.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5010",
+   "employeeId": "E105",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Submitted",
+   "createdBy": "ana.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5011",
+   "employeeId": "E105",
+   "daysAgo": 0,
+   "hours": 12,
+   "type": "Regular",
+   "status": "Submitted",
+   "createdBy": "ben.admin",
+   "note": "Peak season"
+  },
+  {
+   "id": "OT-5012",
+   "employeeId": "E201",
+   "daysAgo": 4,
+   "hours": 5,
+   "type": "Holiday",
+   "status": "Submitted",
+   "createdBy": "cora.admin",
+   "note": "Holiday dispatch"
+  },
+  {
+   "id": "OT-5013",
+   "employeeId": "E202",
+   "daysAgo": 6,
+   "hours": 2,
+   "type": "Regular",
+   "status": "Approved",
+   "createdBy": "cora.admin",
+   "approvedBy": "dan.admin"
+  },
+  {
+   "id": "OT-5014",
+   "employeeId": "E102",
+   "daysAgo": 1,
+   "hours": 2.5,
+   "type": "Regular",
+   "status": "Submitted",
+   "createdBy": "ana.admin",
+   "note": "Month-end close"
+  },
+  {
+   "id": "OT-5015",
+   "employeeId": "E106",
+   "daysAgo": 20,
+   "hours": 3,
+   "type": "Regular",
+   "status": "Paid",
+   "createdBy": "ana.admin",
+   "approvedBy": "ben.admin"
+  }
+ ]
+}
