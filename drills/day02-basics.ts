@@ -28,7 +28,7 @@ export function roundToCents(n: number): number {
 /** Overtime amount = hourlyRate × hours × multiplier, rounded to cents. Throw an Error containing "Invalid hours" when hours is not valid. */
 export function overtimeAmount(hourlyRate: number, hours: number, type: string): number {
   if (!isValidHours(hours)) {
-    throw new Error('Invalid hours');
+    throw new Error(`Invalid hours: ${hours}`);
   }
   const multiplier = overtimeMultiplier(type);
   return roundToCents(hourlyRate * hours * multiplier);
