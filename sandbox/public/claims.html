@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>TallyPay — Overtime claims</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><span class="brand">TallyPay Overtime</span><span><span id="who"></span> <button class="secondary" id="signout">Sign out</button></span></header>
+<main>
+  <h1>Overtime claims</h1>
+  <div class="card" style="display:flex;gap:16px;align-items:end;flex-wrap:wrap">
+    <div><label for="status-filter">Status</label>
+      <select id="status-filter"><option value="">All</option><option>Submitted</option><option>Approved</option><option>Rejected</option><option>Paid</option></select></div>
+    <div id="new-wrap" hidden><a class="btn" href="/new-claim.html">New claim</a></div>
+  </div>
+  <div id="message" role="status"></div><div id="error" role="alert"></div>
+  <table aria-label="Overtime claims">
+    <thead><tr><th>ID</th><th>Employee</th><th>Date</th><th>Type</th><th>Hours</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+<script src="/app.js"></script>
+<script>
+if (TP.requireLogin()) {
+  TP.header();
+  const me = TP.me();
+  if (me.role === 'payroll_admin') document.getElementById('new-wrap').hidden = false;
+  const rows = document.getElementById('rows');
+  const msg = (t) => { document.getElementById('message').textContent = t; document.getElementById('error').textContent = ''; };
+  const err = (t) => { document.getElementById('error').textContent = t; document.getElementById('message').textContent = ''; };
+
+  async function load() {
+    const st = document.getElementById('status-filter').value;
+    const r = await TP.api('GET', '/api/overtime-claims' + (st ? '?status=' + encodeURIComponent(st) : ''));
+    if (r.status !== 200) return err((r.data && r.data.error) || 'Could not load claims');
+    rows.innerHTML = '';
+    for (const c of r.data) {
+      const tr = document.createElement('tr');
+      tr.dataset.claimId = c.id;
+      tr.innerHTML = `<td>${c.id}</td><td>${c.employeeName}</td><td>${c.date}</td><td>${c.type}</td><td>${c.hours}</td>` +
+        `<td>${TP.money(c.amount)}</td><td><span class="badge" data-testid="status">${c.status}</span></td><td class="actions"></td>`;
+      const actions = tr.querySelector('.actions');
+      if (me.role === 'payroll_admin' && c.status === 'Submitted' && c.createdBy !== me.username) {
+        const a = document.createElement('button'); a.textContent = 'Approve'; a.setAttribute('aria-label', 'Approve ' + c.id);
+        a.addEventListener('click', async () => {
+          const x = await TP.api('POST', `/api/overtime-claims/${c.id}/approve`);
+          if (x.status !== 200) return err(x.data.error);
+          msg(`${c.id} approved`); load();
+        });
+        const j = document.createElement('button'); j.textContent = 'Reject'; j.className = 'danger'; j.setAttribute('aria-label', 'Reject ' + c.id);
+        j.addEventListener('click', () => {
+          actions.innerHTML = '';
+          const inp = document.createElement('input'); inp.placeholder = 'Reason'; inp.setAttribute('aria-label', 'Reject reason for ' + c.id); inp.style.minWidth = '140px';
+          const ok = document.createElement('button'); ok.textContent = 'Confirm reject'; ok.className = 'danger';
+          ok.addEventListener('click', async () => {
+            const x = await TP.api('POST', `/api/overtime-claims/${c.id}/reject`, { reason: inp.value });
+            if (x.status !== 200) return err(x.data.error);
+            msg(`${c.id} rejected`);
+            tr.querySelector('[data-testid=status]').textContent = x.data.approvedBy ? 'Rejected' : 'Approved';
+            actions.innerHTML = '';
+          });
+          actions.append(inp, ok);
+        });
+        actions.append(a, ' ', j);
+      }
+      if (me.role === 'payroll_admin' && c.status === 'Approved') {
+        const p = document.createElement('button'); p.textContent = 'Mark paid'; p.className = 'secondary'; p.setAttribute('aria-label', 'Mark ' + c.id + ' paid');
+        p.addEventListener('click', async () => {
+          const x = await TP.api('POST', `/api/overtime-claims/${c.id}/pay`);
+          if (x.status !== 200) return err(x.data.error);
+          msg(`${c.id} marked paid`); load();
+        });
+        actions.append(p);
+      }
+      rows.append(tr);
+    }
+  }
+  document.getElementById('status-filter').addEventListener('change', load);
+  load();
+}
+</script>
+</body></html>
